@@ -16,8 +16,19 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from hospitals.views import HospitalViewSet
+from patients.views import PatientRecordViewSet 
+from doctors.views import DoctorViewSet
+from rest_framework.routers import DefaultRouter
+
+router = DefaultRouter()
+router.register('hospitals', HospitalViewSet)
+router.register('patients', PatientRecordViewSet)
+router.register('doctors', DoctorViewSet)
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('api/', include(router.urls)),
     path('auth/', include('authentication.urls')),
 ]

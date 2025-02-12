@@ -6,7 +6,7 @@ from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.base_user import BaseUserManager
 from django.utils.translation import gettext_lazy as _ # help to raise value error
 
-from phonenumber_field.phonenumber import PhoneNumber
+from phonenumber_field.modelfields import PhoneNumberField
 
 # Create your models here.
 
@@ -21,9 +21,11 @@ class User(AbstractUser):
     )
 
     role =  models.CharField(max_length=10, choices=ROLE_CHOICES, default='patient')
+    phone_number = PhoneNumberField(blank=True, null=True)
+
     
     def str(self):
-        return f"<User {self.role}>"
+        return f"<User {self.username}>"
 
 
 # class CustomUserManager(BaseUserManager):

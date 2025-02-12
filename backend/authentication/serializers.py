@@ -1,6 +1,10 @@
 from django.contrib.auth import authenticate
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework import serializers
+from django.contrib.auth import get_user_model
+
+
+User = get_user_model()
 
 # from phonenumber_field.modelfields import PhoneNumberField
 
@@ -36,9 +40,47 @@ class UserLoginSerializer(serializers.Serializer):
             return {
                 'refresh': str(refresh),
                 'access': str(refresh.access_token),
-                'user': UserSerializer(user).data
+                'user': UserCreationSerializer(user).data
         }
         raise serializers.ValidationError("Invalid Credentials")
+
+
+
+
+class BaseUserSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True)
+    phone_number = serializers.CharField(required=False, allow_blank=True)
+
+    def create(self, validated_data):
+        user = User.objects.create_user(
+            username=validated_data['username'],
+            password=validated_data['password'],
+            role=validated_data.get('role', 'patient'),  # Default to patient
+            phone_number=validated_data.get('phone_number', '')
+        )
+        return user
+
+    class Meta:
+        model = User
+        fields = ['username', 'password', 'phone_number', 'role']
+
+class PatientSerializer(BaseUserSerializer):
+    class Meta(BaseUserSerializer.Meta):
+        extra_kwargs = {'role': {'default': 'patient', 'read_only': True}}
+
+class HospitalSerializer(BaseUserSerializer):
+    class Meta(BaseUserSerializer.Meta):
+        extra_kwargs = {'role': {'default': 'hospital', 'read_only': True}}
+
+class DoctorSerializer(BaseUserSerializer):
+    class Meta(BaseUserSerializer.Meta):
+        extra_kwargs = {'role': {'default': 'doctor', 'read_only': True}}
+
+
+
+
+
+
         # username = attrs.get('username')
         # email = attrs.get('email')
         # phone_number = attrs.get('phone_number')
