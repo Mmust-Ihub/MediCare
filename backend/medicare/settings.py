@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'authentication', # custom authentication app
+    'admin', # custom admin app
    
     'rest_framework',
     'phonenumber_field',
