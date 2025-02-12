@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:medicare/layout/patient/patient.dart';
 import 'package:medicare/provider/providers.dart';
 import 'package:medicare/screens/authentication.dart';
 import 'package:provider/provider.dart';
 
-
 void main() {
-  runApp(MultiProvider(
+  runApp(
+    MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => Providers()),
       ],
       child: const MyApp(),
-    ),);
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -25,7 +27,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
         useMaterial3: true,
       ),
-      home: const Authentication() ,
+      home: const Patient(),
     );
   }
 }
