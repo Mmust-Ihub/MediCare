@@ -1,6 +1,8 @@
 // desktop_scaffold.dart
 import 'package:flutter/material.dart';
 import 'package:medicare/components/constants.dart';
+import 'package:medicare/data/dummy_data.dart';
+import 'package:medicare/layout/hospital/single_hospital_page.dart';
 
 class DesktopScaffold1 extends StatefulWidget {
   const DesktopScaffold1({super.key});
@@ -36,7 +38,8 @@ class _DesktopScaffold1State extends State<DesktopScaffold1> {
         Future.delayed(const Duration(seconds: 1), () {
           setState(() {
             _messages.add(ChatMessage(
-              message: "Thanks for your message! Our team will respond shortly.",
+              message:
+                  "Thanks for your message! Our team will respond shortly.",
               isUser: false,
             ));
           });
@@ -74,7 +77,8 @@ class _DesktopScaffold1State extends State<DesktopScaffold1> {
                 child: SizedBox(
                   width: double.infinity,
                   child: GridView.builder(
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 4,
                     ),
                     itemBuilder: (context, index) {
@@ -84,7 +88,8 @@ class _DesktopScaffold1State extends State<DesktopScaffold1> {
                           padding: const EdgeInsets.all(8.0),
                           child: Container(
                             decoration: BoxDecoration(
-                              border: Border.all(color: Colors.grey, width: 0.5),
+                              border:
+                                  Border.all(color: Colors.grey, width: 0.5),
                               shape: BoxShape.circle,
                               color: Colors.white,
                               boxShadow: [
@@ -121,6 +126,7 @@ class _DesktopScaffold1State extends State<DesktopScaffold1> {
                 child: ListView.separated(
                   padding: const EdgeInsets.all(16),
                   itemBuilder: (context, index) {
+                    final Hospital hospital = dummyHospitals[index];
                     return Container(
                       padding: const EdgeInsets.all(16),
                       decoration: BoxDecoration(
@@ -144,23 +150,24 @@ class _DesktopScaffold1State extends State<DesktopScaffold1> {
                               color: Colors.blue.withOpacity(0.1),
                               borderRadius: BorderRadius.circular(8),
                             ),
-                            child: const Icon(Icons.local_hospital, color: Colors.blue),
+                            child: const Icon(Icons.local_hospital,
+                                color: Colors.blue),
                           ),
                           const SizedBox(width: 16),
                           Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const Text(
-                                  'Metropolitan Hospital',
-                                  style: TextStyle(
+                                Text(
+                                  hospital.name,
+                                  style: const TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 16,
                                   ),
                                 ),
                                 const SizedBox(height: 4),
                                 Text(
-                                  '123 Medical Avenue, City',
+                                  hospital.address,
                                   style: TextStyle(
                                     color: Colors.grey[600],
                                   ),
@@ -168,9 +175,11 @@ class _DesktopScaffold1State extends State<DesktopScaffold1> {
                                 const SizedBox(height: 8),
                                 Row(
                                   children: [
-                                    _buildInfoChip(Icons.star, '4.5'),
+                                    _buildInfoChip(
+                                        Icons.star, hospital.rating.toString()),
                                     const SizedBox(width: 8),
-                                    _buildInfoChip(Icons.access_time, 'Open 24/7'),
+                                    _buildInfoChip(
+                                        Icons.access_time, hospital.hours),
                                     const SizedBox(width: 8),
                                     _buildInfoChip(Icons.phone, 'Emergency'),
                                   ],
@@ -181,15 +190,19 @@ class _DesktopScaffold1State extends State<DesktopScaffold1> {
                           IconButton(
                             icon: const Icon(Icons.arrow_forward_ios),
                             onPressed: () {
-                              // Navigate to hospital detail
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => HospitalDetailPage(
+                                        hospital: hospital.toJson(),
+                                      )));
                             },
                           ),
                         ],
                       ),
                     );
                   },
-                  separatorBuilder: (context, index) => const SizedBox(height: 16),
-                  itemCount: 4,
+                  separatorBuilder: (context, index) =>
+                      const SizedBox(height: 16),
+                  itemCount: dummyHospitals.length,
                 ),
               )
             ]),
