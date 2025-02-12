@@ -6,7 +6,7 @@ from hospitals.models import Hospital
 class PatientRecord(models.Model):
     patient = models.ForeignKey('authentication.User', on_delete=models.CASCADE, related_name='records', limit_choices_to={'role': 'patient'})
     hospital = models.ForeignKey(Hospital, on_delete=models.CASCADE, related_name='patient_records')
-    doctor = models.ForeignKey(User, on_delete=models.CASCADE, related_name='patient_records', limit_choices_to={'role': 'doctor'})
+    doctor = models.ForeignKey(User, on_delete=models.CASCADE, related_name='patient_records', limit_choices_to={'role': 'doctor'}, null = False)
     symptoms = models.TextField()
     diagnosis = models.TextField(blank=True)
     treatment = models.TextField(blank=True)
