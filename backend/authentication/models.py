@@ -1,16 +1,8 @@
 from django.db import models
-
 from django.contrib.auth.models import AbstractUser
-
-# manager to dictate how to create super user and normal users
 from django.contrib.auth.base_user import BaseUserManager
-from django.utils.translation import gettext_lazy as _ # help to raise value error
-
-from phonenumber_field.phonenumber import PhoneNumber
-
-# Create your models here.
-
-# create custom user model
+from django.utils.translation import gettext_lazy as _
+from phonenumber_field.modelfields import PhoneNumberField
 
 class User(AbstractUser):
     ROLE_CHOICES = (
@@ -20,10 +12,46 @@ class User(AbstractUser):
         ('patient', 'Patient')
     )
 
-    role =  models.CharField(max_length=10, choices=ROLE_CHOICES, default='patient')
+    role = models.CharField(max_length=10, choices=ROLE_CHOICES, default='patient')
+    phone_number = PhoneNumberField(blank=True, null=True)
+    hospitals = models.ManyToManyField('hospitals.Hospital', related_name='patients', blank=True)  # Use string literal
+
+    def __str__(self):
+        return f"<User {self.username}>"
+
+
+
+
+# from django.db import models
+
+# from django.contrib.auth.models import AbstractUser
+# from hospitals.models import Hospital
+
+# # manager to dictate how to create super user and normal users
+# from django.contrib.auth.base_user import BaseUserManager
+# from django.utils.translation import gettext_lazy as _ # help to raise value error
+
+# from phonenumber_field.modelfields import PhoneNumberField
+
+# # Create your models here.
+
+# # create custom user model
+
+# class User(AbstractUser):
+#     ROLE_CHOICES = (
+#         ('admin', 'Admin'),
+#         ('hospital', 'Hospital'),
+#         ('doctor', 'Doctor'),
+#         ('patient', 'Patient')
+#     )
+
+#     role =  models.CharField(max_length=10, choices=ROLE_CHOICES, default='patient')
+#     phone_number = PhoneNumberField(blank=True, null=True)
+#     hospitals = models.ManyToManyField(Hospital, related_name='patients', blank=True)  
+
     
-    def str(self):
-        return f"<User {self.role}>"
+#     def str(self):
+#         return f"<User {self.username}>"
 
 
 # class CustomUserManager(BaseUserManager):
