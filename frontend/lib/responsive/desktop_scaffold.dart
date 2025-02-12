@@ -57,12 +57,24 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
             ]),
           ),
           Expanded(
-              child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-              color: Colors.red[300],
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                decoration:
+                    BoxDecoration(color: Colors.grey[300], boxShadow: const [
+                  BoxShadow(
+                    color: Colors.grey,
+                    offset: Offset(
+                      5.0,
+                      5.0,
+                    ),
+                    blurRadius: 10.0,
+                    spreadRadius: 2.0,
+                  ), //BoxShadow
+                ]),
+              ),
             ),
-          ))
+          )
         ],
       ),
     );
