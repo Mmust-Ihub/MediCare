@@ -40,9 +40,13 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'authentication', # custom authentication app
+    'hospitals', # custom hospitals app
+    'patients', # custom patients app
+    'doctors', # custom doctors app
    
     'rest_framework',
-    'phonenumber_field',
+    'rest_framework.authtoken',
+    # 'phonenumber_field',
     'rest_framework_simplejwt',
 ]
 
