@@ -17,7 +17,7 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      initialIndex: 4,
+      initialIndex: 0,
       length: 5,
       child: Scaffold(
         backgroundColor: backgroundColor,

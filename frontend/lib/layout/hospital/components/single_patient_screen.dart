@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:medicare/layout/hospital/components/medical_records_screen.dart';
 
 class SinglePatientScreen extends StatelessWidget {
   final String patientName;
@@ -183,25 +184,17 @@ class _MedicalRecordsTable extends StatelessWidget {
       ],
       rows: [
         _buildMedicalRecordRow(
-          '15 May 2023',
-          'Hypertension',
-          'Dr. Sarah Wilson',
-        ),
+            '15 May 2023', 'Hypertension', 'Dr. Sarah Wilson', context),
         _buildMedicalRecordRow(
-          '10 Apr 2023',
-          'Common Cold',
-          'Dr. Michael Brown',
-        ),
+            '10 Apr 2023', 'Common Cold', 'Dr. Michael Brown', context),
         _buildMedicalRecordRow(
-          '25 Mar 2023',
-          'Annual Checkup',
-          'Dr. Emma Johnson',
-        ),
+            '25 Mar 2023', 'Annual Checkup', 'Dr. Emma Johnson', context),
       ],
     );
   }
 
-  DataRow _buildMedicalRecordRow(String date, String diagnosis, String doctor) {
+  DataRow _buildMedicalRecordRow(
+      String date, String diagnosis, String doctor, BuildContext context) {
     return DataRow(
       cells: [
         DataCell(Text(date)),
@@ -212,7 +205,19 @@ class _MedicalRecordsTable extends StatelessWidget {
             children: [
               IconButton(
                 icon: const Icon(Icons.visibility),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => MedicalRecordDetailsScreen(
+                        patientName:
+                            'John Smith', // This should come from your patient data
+                        date: date,
+                        diagnosis: diagnosis,
+                        doctor: doctor,
+                      ),
+                    ),
+                  );
+                },
               ),
               IconButton(
                 icon: const Icon(Icons.download),

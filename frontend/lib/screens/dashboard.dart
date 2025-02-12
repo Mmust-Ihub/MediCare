@@ -3,8 +3,7 @@ import 'package:medicare/widgets/stats_card.dart';
 import 'package:medicare/widgets/appointments_list.dart';
 import 'package:medicare/widgets/staff_avatars.dart';
 import 'package:medicare/widgets/patients_chart.dart';
-import 'package:medicare/models/appointment.dart';
-import 'package:medicare/models/staff.dart';
+
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({super.key});
