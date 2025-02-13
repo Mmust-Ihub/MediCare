@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_gemini/flutter_gemini.dart';
-import 'package:medicare/layout/hospital/hospital.dart';
 import 'package:medicare/provider/providers.dart';
 import 'package:medicare/screens/authentication.dart';
 import 'package:provider/provider.dart';
@@ -34,7 +33,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
         useMaterial3: true,
       ),
-      home: const Hospital(),
+      home: const Authentication(),
     );
   }
 }
