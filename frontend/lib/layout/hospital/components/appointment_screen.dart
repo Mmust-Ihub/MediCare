@@ -11,8 +11,7 @@ class AppointmentScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _buildHeader(),
-          // const SizedBox(height: 20),
-          // _buildCalendarSection(),
+         
           const SizedBox(height: 20),
           _buildAppointmentsList(),
         ],
@@ -40,66 +39,7 @@ class AppointmentScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildCalendarSection() {
-    return Container(
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(10),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
-            spreadRadius: 2,
-            blurRadius: 5,
-          ),
-        ],
-      ),
-      child: Column(
-        children: [
-          // Calendar header
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Text(
-                'February 2025',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              Row(
-                children: [
-                  IconButton(
-                    icon: const Icon(Icons.chevron_left),
-                    onPressed: () {},
-                  ),
-                  IconButton(
-                    icon: const Icon(Icons.chevron_right),
-                    onPressed: () {},
-                  ),
-                ],
-              ),
-            ],
-          ),
-          // Simple calendar grid
-          GridView.builder(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 7,
-              childAspectRatio: 1,
-            ),
-            itemCount: 31,
-            itemBuilder: (context, index) {
-              return Center(
-                child: Text('${index + 1}'),
-              );
-            },
-          ),
-        ],
-      ),
-    );
-  }
+ 
 
   Widget _buildAppointmentsList() {
     return Container(

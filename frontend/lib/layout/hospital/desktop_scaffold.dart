@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:medicare/components/constants.dart';
+import 'package:medicare/components/login_page.dart';
 import 'package:medicare/layout/hospital/components/appointment_screen.dart';
 import 'package:medicare/layout/hospital/components/dashboard.dart';
 import 'package:medicare/layout/hospital/components/patients_screen.dart';
 import 'package:medicare/layout/hospital/components/report_screen.dart';
 import 'package:medicare/layout/hospital/components/settings_screen.dart';
+import 'package:medicare/screens/authentication.dart';
 
 class DesktopScaffold extends StatefulWidget {
   const DesktopScaffold({super.key});
@@ -30,11 +32,7 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
               child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Container(
-                      padding: const EdgeInsets.all(8),
-                      color: Colors.white,
-                      child: const Text("MediCare"),
-                    ),
+                    Image.asset("assets/images/logo.webp"),
                     Container(
                       width: 600,
                       decoration: const BoxDecoration(
@@ -100,10 +98,14 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
                         ],
                       ),
                     ),
-                    Container(
-                      color: Colors.white,
-                      child: const Text("MediCare"),
-                    ),
+                    TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const Authentication()));
+                        },
+                        child: const Text("Logout"))
                   ]),
             ),
             const SizedBox(height: 10),
