@@ -1,8 +1,11 @@
 import os
 import google.generativeai as genai
 
+from decouple import config
+
 def predict_disease(symptoms):
-    genai.configure(api_key="AIzaSyD0Mrymn8sdo4UZfK28AGDTqcY4-YJPo7Q")
+    genai.configure(api_key=config('GENAI_API_KEY'))
+
 
     generation_config = {
         "temperature": 1,
