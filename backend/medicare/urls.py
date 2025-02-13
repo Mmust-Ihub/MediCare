@@ -22,9 +22,9 @@ from doctors.views import DoctorViewSet
 from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
-router.register('hospitals', HospitalViewSet)
-router.register('patients', PatientRecordViewSet)
-router.register('doctors', DoctorViewSet)
+router.register(r'hospitals', HospitalViewSet)
+router.register(r'patients', PatientRecordViewSet)
+router.register(r'doctors', DoctorViewSet)
 
 
 urlpatterns = [
@@ -32,4 +32,5 @@ urlpatterns = [
     path('api/', include(router.urls)),
     path('auth/', include('authentication.urls')),
     path('api/patients/', include('patients.urls')), 
+    path('api/hospitals/', include('hospitals.urls')),
 ]

@@ -17,26 +17,50 @@ class HospitalSerializer(serializers.ModelSerializer):
         return hospital
 
 # Patient Creation Serializer
-class PatientCreationSerializer(serializers.ModelSerializer):
-    hospital = serializers.PrimaryKeyRelatedField(queryset=Hospital.objects.all(), write_only=True)
+# class PatientCreationSerializer(serializers.ModelSerializer):
+#     hospital = serializers.PrimaryKeyRelatedField(queryset=Hospital.objects.all(), write_only=True)
 
+#     class Meta:
+#         model = User
+#         fields = ['id', 'username', 'password', 'phone_number', 'hospital']
+#         extra_kwargs = {
+#             'password': {'write_only': True},
+#             'role': {'default': 'patient', 'read_only': True}
+#         }
+
+#     def create(self, validated_data):
+#         hospital = validated_data.pop('hospital')
+#         user = User.objects.create_user(
+#             username=validated_data['username'],
+#             password=validated_data['password'],
+#             role='patient',
+#             phone_number=validated_data.get('phone_number', '')
+#         )
+#         user.hospitals.add(hospital)  # Add hospital to patient's catalog
+#         return user
+
+
+class PatientCreationSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'username', 'password', 'phone_number', 'hospital']
+        fields = ['id', 'username', 'password', 'phone_number', 'hospitals']
         extra_kwargs = {
             'password': {'write_only': True},
             'role': {'default': 'patient', 'read_only': True}
         }
 
     def create(self, validated_data):
-        hospital = validated_data.pop('hospital')
+        # Remove hospitals from validated_data since it's a M2M field
+        hospitals = validated_data.pop('hospitals', [])
         user = User.objects.create_user(
             username=validated_data['username'],
             password=validated_data['password'],
             role='patient',
             phone_number=validated_data.get('phone_number', '')
         )
-        user.hospitals.add(hospital)  # Add hospital to patient's catalog
+        # Add hospitals to the user
+        if hospitals:
+            user.hospitals.set(hospitals)
         return user
 
 # Doctor Creation Serializer

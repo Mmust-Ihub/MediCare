@@ -12,12 +12,12 @@ class PatientRecordSerializer(serializers.ModelSerializer):
     class Meta:
         model = PatientRecord
         fields = ['id', 'patient', 'patient_username', 'hospital', 'hospital_name', 'doctor', 'doctor_username', 'symptoms', 'diagnosis', 'treatment', 'created_at', 'updated_at']
-        read_only_fields = ['patient', 'hospital', 'doctor', 'symptoms', 'diagnosis', 'treatment', 'created_at', 'updated_at']
+        read_only_fields = ['patient_username', 'hospital_name', 'doctor_username', 'created_at', 'updated_at']
 
     def validate(self, data):
         if data['patient'].role != 'patient':
             raise serializers.ValidationError("Selected user is not a patient.")
-        if data['doctor'].role != 'doctor':
+        if 'doctor' in data and data['doctor'].role != 'doctor':
             raise serializers.ValidationError("Selected user is not a doctor.")
         return data
 
@@ -28,7 +28,7 @@ class DiseasePredictionSerializer(serializers.Serializer):
     recommendation = serializers.CharField(read_only=True)
     prescription = serializers.CharField(read_only=True)
 
-    
+
 # Patient Hospital Catalog Serializer
 class PatientHospitalSerializer(serializers.ModelSerializer):
     hospitals = serializers.PrimaryKeyRelatedField(many=True, queryset=Hospital.objects.all())
