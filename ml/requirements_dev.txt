@@ -1,0 +1,32 @@
+# Libraries for machine learning development
+scikit-learn
+pandas
+numpy
+matplotlib
+seaborn
+jupyter  # running notebooks locally
+
+# Testing libraries
+pytest
+pytest-cov  # code coverage during testing
+
+flake8  # For linting code
+black  # For automatic code formatting
+
+# Documentation 
+sphinx  
+sphinx-rtd-theme # For ReadTheDocs theme
+
+mlflow  # For model tracking and versioning
+
+# For setting up virtual environments
+# virtualenv==20.16.5 will come back to this later
+
+requests # For making HTTP requests to your API during local development
+
+# Data ingestion and streaming 
+# kafka-python 
+
+# Jupyter Notebook libraries
+ipykernel
+notebook
