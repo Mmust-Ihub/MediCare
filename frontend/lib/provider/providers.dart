@@ -68,59 +68,38 @@ enum UserType { doctor, patient, hospital, admin }
 class ChatProvider with ChangeNotifier {
   final geminiService = GeminiService(apiKey: dotenv.env['GEMINI_API_KEY']!);
 
-  List<ChatMessage> _messages = [];
-
+  final List<ChatMessage> _messages = [];
   bool _isLoading = false;
 
   List<ChatMessage> get messages => _messages;
-
   bool get isLoading => _isLoading;
 
-  Future<ChatMessage?> sendMessage(String content) async {
-    if (content.trim().isEmpty) return null;
-
-    final userMessage = ChatMessage(
-      message: content,
-      isUser: true,
-    );
-
+  Future<void> sendMessage(String content) async {
+    final userMessage = ChatMessage(message: content, isUser: true);
     _messages.add(userMessage);
+    notifyListeners();
 
-    _messages.add(userMessage);
-
+    _isLoading = true;
     notifyListeners();
 
     try {
-      final response = await geminiService.getResponse(
-        content,
-      );
+      final response = await geminiService.getResponse(content);
 
-      final responseMessage = ChatMessage(
-        message: response,
-        isUser: false,
-      );
-
+      final responseMessage = ChatMessage(message: response, isUser: false);
       _messages.add(responseMessage);
-
-      _messages.add(responseMessage);
-      return responseMessage;
+      _isLoading = false;
+      notifyListeners();
     } catch (e) {
       final errorMessage = ChatMessage(
-        message: "Sorry, I couldn't process your message $e",
+        message: "Sorry, I couldn't process your message: $e",
         isUser: false,
       );
-
       _messages.add(errorMessage);
-
-      _messages.add(errorMessage);
-
-          notifyListeners();
-
-
-
-            return errorMessage;
+      _isLoading = false;
+      notifyListeners();
+    } finally {
+      _isLoading = false;
+      notifyListeners();
     }
-
-    
   }
 }

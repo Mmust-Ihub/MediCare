@@ -29,30 +29,6 @@ class _DesktopScaffold1State extends State<DesktopScaffold1> {
     );
   }
 
-  void _handleSendMessage() {
-    if (_messageController.text.trim().isNotEmpty) {
-      setState(() {
-        _messages.add(ChatMessage(
-          message: _messageController.text,
-          isUser: true,
-        ));
-        // Simulate bot response
-        Future.delayed(const Duration(seconds: 1), () {
-          setState(() {
-            _messages.add(ChatMessage(
-              message:
-                  "Thanks for your message! Our team will respond shortly.",
-              isUser: false,
-            ));
-          });
-          _scrollToBottom();
-        });
-      });
-      _messageController.clear();
-      _scrollToBottom();
-    }
-  }
-
   void _scrollToBottom() {
     if (_scrollController.hasClients) {
       _scrollController.animateTo(
@@ -227,8 +203,7 @@ class _DesktopScaffold1State extends State<DesktopScaffold1> {
                 child: Consumer<ChatProvider>(
                   builder: (BuildContext context, ChatProvider value,
                       Widget? child) {
-                    final ChatProvider chatprovider =
-                        context.read<ChatProvider>();
+                    final List<ChatMessage> messages = value.messages;
                     return Column(
                       children: [
                         const Padding(
@@ -251,9 +226,9 @@ class _DesktopScaffold1State extends State<DesktopScaffold1> {
                           child: ListView.builder(
                             controller: _scrollController,
                             padding: const EdgeInsets.symmetric(horizontal: 16),
-                            itemCount: _messages.length,
+                            itemCount: messages.length,
                             itemBuilder: (context, index) {
-                              return _buildMessage(_messages[index]);
+                              return _buildMessage(messages[index]);
                             },
                           ),
                         ),
@@ -275,25 +250,16 @@ class _DesktopScaffold1State extends State<DesktopScaffold1> {
                                         vertical: 8,
                                       ),
                                     ),
-                                    onSubmitted: (_) async {
-                                      if (_messageController.text
-                                          .trim()
-                                          .isNotEmpty) {
-                                        var response =
-                                            await chatprovider.sendMessage(
-                                                _messageController.text);
-                                        setState(() {
-                                          _messages.add(ChatMessage(
-                                            message: _messageController.text,
-                                            isUser: true,
-                                          ));
+                                    onSubmitted: (_) {
+                                      if (_messageController.text.isNotEmpty) {
+                                        final ChatProvider chatprovider =
+                                            context.read<ChatProvider>();
+                                        chatprovider.sendMessage(
+                                            _messageController.text);
 
-                                          _messages.add(response!);
-
-                                          _scrollToBottom();
-                                        });
                                         _messageController.clear();
-                                        _scrollToBottom();
+                                        Future.delayed(
+                                            Duration.zero, _scrollToBottom);
                                       }
                                     }),
                               ),
@@ -301,7 +267,18 @@ class _DesktopScaffold1State extends State<DesktopScaffold1> {
                               IconButton(
                                 icon: const Icon(Icons.send),
                                 color: Colors.blue,
-                                onPressed: _handleSendMessage,
+                                onPressed: () {
+                                  if (_messageController.text.isNotEmpty) {
+                                    final ChatProvider chatprovider =
+                                        context.read<ChatProvider>();
+                                    chatprovider
+                                        .sendMessage(_messageController.text);
+
+                                    _messageController.clear();
+                                    Future.delayed(
+                                        Duration.zero, _scrollToBottom);
+                                  }
+                                },
                               ),
                             ],
                           ),
