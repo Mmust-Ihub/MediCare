@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:medicare/responsive/temp.dart';
+import 'package:medicare/services/gemini_api_service.dart';
 
 class Providers with ChangeNotifier {
   final UserType _usertype = UserType.patient;
@@ -12,7 +15,6 @@ class Providers with ChangeNotifier {
   Future<UserType?> auth(String email) async {
     _isLoading = true;
     notifyListeners();
-
 
     UserType? result;
 
@@ -62,3 +64,63 @@ class Providers with ChangeNotifier {
 }
 
 enum UserType { doctor, patient, hospital, admin }
+
+class ChatProvider with ChangeNotifier {
+  final geminiService = GeminiService(apiKey: dotenv.env['GEMINI_API_KEY']!);
+
+  List<ChatMessage> _messages = [];
+
+  bool _isLoading = false;
+
+  List<ChatMessage> get messages => _messages;
+
+  bool get isLoading => _isLoading;
+
+  Future<ChatMessage?> sendMessage(String content) async {
+    if (content.trim().isEmpty) return null;
+
+    final userMessage = ChatMessage(
+      message: content,
+      isUser: true,
+    );
+
+    _messages.add(userMessage);
+
+    _messages.add(userMessage);
+
+    notifyListeners();
+
+    try {
+      final response = await geminiService.getResponse(
+        content,
+      );
+
+      final responseMessage = ChatMessage(
+        message: response,
+        isUser: false,
+      );
+
+      _messages.add(responseMessage);
+
+      _messages.add(responseMessage);
+      return responseMessage;
+    } catch (e) {
+      final errorMessage = ChatMessage(
+        message: "Sorry, I couldn't process your message $e",
+        isUser: false,
+      );
+
+      _messages.add(errorMessage);
+
+      _messages.add(errorMessage);
+
+          notifyListeners();
+
+
+
+            return errorMessage;
+    }
+
+    
+  }
+}

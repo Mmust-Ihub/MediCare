@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:medicare/components/constants.dart';
 import 'package:medicare/data/dummy_data.dart';
 import 'package:medicare/layout/hospital/single_hospital_page.dart';
+import 'package:medicare/provider/providers.dart';
+import 'package:provider/provider.dart';
 
 class DesktopScaffold1 extends StatefulWidget {
   const DesktopScaffold1({super.key});
@@ -222,64 +224,91 @@ class _DesktopScaffold1State extends State<DesktopScaffold1> {
                     ),
                   ],
                 ),
-                child: Column(
-                  children: [
-                    const Padding(
-                      padding: EdgeInsets.all(16.0),
-                      child: Row(
-                        children: [
-                          Icon(Icons.support_agent, color: Colors.blue),
-                          SizedBox(width: 8),
-                          Text(
-                            'Healthcare Assistant',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                      child: ListView.builder(
-                        controller: _scrollController,
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
-                        itemCount: _messages.length,
-                        itemBuilder: (context, index) {
-                          return _buildMessage(_messages[index]);
-                        },
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: TextField(
-                              controller: _messageController,
-                              decoration: InputDecoration(
-                                hintText: 'Type your message...',
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(24),
-                                ),
-                                contentPadding: const EdgeInsets.symmetric(
-                                  horizontal: 16,
-                                  vertical: 8,
+                child: Consumer<ChatProvider>(
+                  builder: (BuildContext context, ChatProvider value,
+                      Widget? child) {
+                    final ChatProvider chatprovider =
+                        context.read<ChatProvider>();
+                    return Column(
+                      children: [
+                        const Padding(
+                          padding: EdgeInsets.all(16.0),
+                          child: Row(
+                            children: [
+                              Icon(Icons.support_agent, color: Colors.blue),
+                              SizedBox(width: 8),
+                              Text(
+                                'Healthcare Assistant',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16,
                                 ),
                               ),
-                              onSubmitted: (_) => _handleSendMessage(),
-                            ),
+                            ],
                           ),
-                          const SizedBox(width: 8),
-                          IconButton(
-                            icon: const Icon(Icons.send),
-                            color: Colors.blue,
-                            onPressed: _handleSendMessage,
+                        ),
+                        Expanded(
+                          child: ListView.builder(
+                            controller: _scrollController,
+                            padding: const EdgeInsets.symmetric(horizontal: 16),
+                            itemCount: _messages.length,
+                            itemBuilder: (context, index) {
+                              return _buildMessage(_messages[index]);
+                            },
                           ),
-                        ],
-                      ),
-                    ),
-                  ],
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: TextField(
+                                    controller: _messageController,
+                                    decoration: InputDecoration(
+                                      hintText: 'Type your message...',
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(24),
+                                      ),
+                                      contentPadding:
+                                          const EdgeInsets.symmetric(
+                                        horizontal: 16,
+                                        vertical: 8,
+                                      ),
+                                    ),
+                                    onSubmitted: (_) async {
+                                      if (_messageController.text
+                                          .trim()
+                                          .isNotEmpty) {
+                                        var response =
+                                            await chatprovider.sendMessage(
+                                                _messageController.text);
+                                        setState(() {
+                                          _messages.add(ChatMessage(
+                                            message: _messageController.text,
+                                            isUser: true,
+                                          ));
+
+                                          _messages.add(response!);
+
+                                          _scrollToBottom();
+                                        });
+                                        _messageController.clear();
+                                        _scrollToBottom();
+                                      }
+                                    }),
+                              ),
+                              const SizedBox(width: 8),
+                              IconButton(
+                                icon: const Icon(Icons.send),
+                                color: Colors.blue,
+                                onPressed: _handleSendMessage,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    );
+                  },
                 ),
               ),
             ),

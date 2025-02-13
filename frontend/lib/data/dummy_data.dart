@@ -119,7 +119,6 @@ List<MedicalRecord> records = [
 
 
 
-// Create a file named hospital_data.dart
 
 class Hospital {
   final String name;
