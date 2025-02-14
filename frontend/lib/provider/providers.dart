@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:medicare/responsive/temp.dart';
 import 'package:medicare/services/gemini_api_service.dart';
+import 'package:medicare/temporary/models/models.dart';
 
 class Providers with ChangeNotifier {
   final UserType _usertype = UserType.patient;

@@ -6,6 +6,7 @@ import 'package:medicare/components/input.dart';
 import 'package:medicare/layout/hospital/hospital.dart';
 import 'package:medicare/layout/patient/patient.dart';
 import 'package:medicare/provider/providers.dart';
+import 'package:medicare/services/geo_locator_service.dart';
 import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {

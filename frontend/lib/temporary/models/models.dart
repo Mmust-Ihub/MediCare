@@ -2,8 +2,9 @@ class User {
   final String id;
   final String fullName;
   final String email;
-  final double distance;
   final bool isCritical;
+    final String gender;
+
   final List<MedicalRecord> records;
   final List<Hospital> enrolledHospitals;
 
@@ -11,9 +12,9 @@ class User {
     required this.id,
     required this.fullName,
     required this.email,
-    this.distance = 0.0,
     this.isCritical = false,
     required this.records,
+    required this.gender,
     required this.enrolledHospitals,
   });
 }
@@ -27,8 +28,8 @@ class MedicalRecord {
   final String prescription;
   final String diagnosedDisease;
   final List<String> medications;
-  final Hospital hospital;
-  final Doctor doctor;
+  final String hospitalId;
+  final String doctorId;
 
   MedicalRecord({
     required this.id,
@@ -38,8 +39,8 @@ class MedicalRecord {
     required this.prescription,
     required this.diagnosedDisease,
     required this.medications,
-    required this.hospital,
-    required this.doctor,
+    required this.hospitalId,
+    required this.doctorId,
   });
 }
 
@@ -53,6 +54,10 @@ class Hospital {
   final List<User> enrolledPatients;
   final String imageUrl;
   final double rating;
+  final double latitudee;
+  final double longitude;
+   double distance;
+
 
   Hospital({
     required this.id,
@@ -63,6 +68,9 @@ class Hospital {
     required this.enrolledPatients,
     required this.imageUrl,
     required this.rating,
+    required this.latitudee,
+    required this.longitude,
+     this.distance = 0.0,
   });
 }
 
@@ -124,5 +132,35 @@ class Diet {
     required this.imageUrl,
     required this.calories,
     required this.ingredients,
+  });
+}
+
+class Appointment {
+  final String id;
+  final DateTime date;
+  final String time;
+  final String doctor;
+  final String hospital;
+  final String department;
+  final String status;
+
+  Appointment({
+    required this.id,
+    required this.date,
+    required this.time,
+    required this.doctor,
+    required this.hospital,
+    required this.department,
+    required this.status,
+  });
+}
+
+class ChatMessage {
+  final String message;
+  final bool isUser;
+
+  ChatMessage({
+    required this.message,
+    required this.isUser,
   });
 }

@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:medicare/layout/patient/appointments.dart';
+import 'package:medicare/layout/patient/chat_screen.dart';
 import 'package:medicare/layout/patient/hospital_screen.dart';
 import 'package:medicare/layout/patient/profile_screen.dart';
 import 'package:medicare/layout/patient/records_screen.dart';
+import 'package:medicare/provider/hospital_provider.dart';
+import 'package:medicare/services/emergency_service.dart';
+import 'package:medicare/temporary/dummy.dart';
 import 'package:medicare/theme/app_theme.dart';
+import 'package:provider/provider.dart';
 
 // Data Models
 class Category {
@@ -117,314 +122,337 @@ class _HomeScreenState extends State<HomeScreen> {
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: Column(
-            children: [
-              // Header
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          child: Consumer<HospitalProvider>(
+            builder:
+                (BuildContext context, HospitalProvider value, Widget? child) {
+              final hospitals = value.sortedHospitals;
+
+              return Column(
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  // Header
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        'Hello, Guest',
-                        style: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                          color: isDark
-                              ? const Color(0xFFF3F4F6)
-                              : const Color(0xFF1F2937),
-                        ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Hello, ${currentUser.fullName.split(" ")[0]}',
+                            style: TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                              color: isDark
+                                  ? const Color(0xFFF3F4F6)
+                                  : const Color(0xFF1F2937),
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            'How are you feeling today?',
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: isDark
+                                  ? const Color(0xFF9CA3AF)
+                                  : const Color(0xFF6B7280),
+                            ),
+                          ),
+                        ],
                       ),
-                      const SizedBox(height: 4),
-                      Text(
-                        'How are you feeling today?',
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: isDark
-                              ? const Color(0xFF9CA3AF)
-                              : const Color(0xFF6B7280),
+                      IconButton(
+                        onPressed: () async {
+                          await EmergencyService.sendEmergencyEmail(
+                              userEmail: currentUser.email,
+                              userName: currentUser.fullName);
+                        },
+                        icon: const Icon(Icons.warning_rounded),
+                        style: IconButton.styleFrom(
+                          backgroundColor: const Color(0xFFDC2626),
+                          foregroundColor: Colors.white,
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 12, vertical: 8),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
                         ),
                       ),
                     ],
                   ),
-                  IconButton(
-                    onPressed: () {},
-                    icon: const Icon(Icons.warning_rounded),
-                    style: IconButton.styleFrom(
-                      backgroundColor: const Color(0xFFDC2626),
-                      foregroundColor: Colors.white,
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 12, vertical: 8),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
+                  const SizedBox(height: 24),
+
+                  // Main Content
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Categories Section
+                        Text(
+                          'Hospital Categories',
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w600,
+                            color: isDark
+                                ? const Color(0xFFF3F4F6)
+                                : const Color(0xFF1F2937),
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        SizedBox(
+                          height: 100,
+                          child: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: categories.length,
+                            itemBuilder: (context, index) {
+                              final category = categories[index];
+                              return Container(
+                                width: 100,
+                                margin: const EdgeInsets.only(right: 12),
+                                decoration: BoxDecoration(
+                                  color: isDark
+                                      ? const Color(0xFF374151)
+                                      : Colors.white,
+                                  borderRadius: BorderRadius.circular(16),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black.withOpacity(0.1),
+                                      blurRadius: 4,
+                                      offset: const Offset(0, 2),
+                                    ),
+                                  ],
+                                ),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      category.icon,
+                                      style: const TextStyle(fontSize: 32),
+                                    ),
+                                    const SizedBox(height: 8),
+                                    Text(
+                                      category.name,
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500,
+                                        color: isDark
+                                            ? const Color(0xFFF3F4F6)
+                                            : const Color(0xFF1F2937),
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                        const SizedBox(height: 24),
+
+                        // Exercises Section
+                        Text(
+                          'Nearest Hospitals',
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w600,
+                            color: isDark
+                                ? const Color(0xFFF3F4F6)
+                                : const Color(0xFF1F2937),
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        SizedBox(
+                          height: 200,
+                          child: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: exercises.length,
+                            itemBuilder: (context, index) {
+                              final hospital = hospitals[index];
+
+                              return Container(
+                                width: 200,
+                                margin: const EdgeInsets.only(right: 16),
+                                decoration: BoxDecoration(
+                                  color: isDark
+                                      ? const Color(0xFF374151)
+                                      : Colors.white,
+                                  borderRadius: BorderRadius.circular(16),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black.withOpacity(0.1),
+                                      blurRadius: 4,
+                                      offset: const Offset(0, 2),
+                                    ),
+                                  ],
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    ClipRRect(
+                                      borderRadius: const BorderRadius.vertical(
+                                        top: Radius.circular(16),
+                                      ),
+                                      child: Image.network(
+                                        hospital.imageUrl,
+                                        height: 120,
+                                        width: double.infinity,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 12),
+                                      child: Expanded(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              hospital.name,
+                                              style: TextStyle(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w600,
+                                                color: isDark
+                                                    ? const Color(0xFFF3F4F6)
+                                                    : const Color(0xFF1F2937),
+                                              ),
+                                            ),
+                                            Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceEvenly,
+                                                children: [
+                                                  Text(
+                                                    hospital.category,
+                                                    style: TextStyle(
+                                                      fontSize: 14,
+                                                      color: isDark
+                                                          ? const Color(
+                                                              0xFF9CA3AF)
+                                                          : const Color(
+                                                              0xFF6B7280),
+                                                    ),
+                                                  ),
+                                                  Text(
+                                                    '${hospital.distance.toStringAsFixed(2)} km',
+                                                    style: TextStyle(
+                                                      fontSize: 14,
+                                                      color: isDark
+                                                          ? const Color(
+                                                              0xFF9CA3AF)
+                                                          : const Color(
+                                                              0xFF6B7280),
+                                                    ),
+                                                  ),
+                                                ]),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                        const SizedBox(height: 24),
+
+                        // Diet Section
+                        Text(
+                          'Your Diet Plan',
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w600,
+                            color: isDark
+                                ? const Color(0xFFF3F4F6)
+                                : const Color(0xFF1F2937),
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        Expanded(
+                          child: ListView.builder(
+                            itemCount: diets.length,
+                            itemBuilder: (context, index) {
+                              final diet = diets[index];
+                              return Container(
+                                margin: const EdgeInsets.only(bottom: 16),
+                                decoration: BoxDecoration(
+                                  color: isDark
+                                      ? const Color(0xFF374151)
+                                      : Colors.white,
+                                  borderRadius: BorderRadius.circular(16),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black.withOpacity(0.1),
+                                      blurRadius: 4,
+                                      offset: const Offset(0, 2),
+                                    ),
+                                  ],
+                                ),
+                                child: Row(
+                                  children: [
+                                    ClipRRect(
+                                      borderRadius:
+                                          const BorderRadius.horizontal(
+                                        left: Radius.circular(16),
+                                      ),
+                                      child: Image.network(
+                                        diet.image,
+                                        width: 100,
+                                        height: 100,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(12),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              diet.name,
+                                              style: TextStyle(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w600,
+                                                color: isDark
+                                                    ? const Color(0xFFF3F4F6)
+                                                    : const Color(0xFF1F2937),
+                                              ),
+                                            ),
+                                            const SizedBox(height: 4),
+                                            Text(
+                                              diet.category,
+                                              style: TextStyle(
+                                                fontSize: 14,
+                                                color: isDark
+                                                    ? const Color(0xFF9CA3AF)
+                                                    : const Color(0xFF6B7280),
+                                              ),
+                                            ),
+                                            const SizedBox(height: 4),
+                                            Text(
+                                              '${diet.calories} calories',
+                                              style: TextStyle(
+                                                fontSize: 14,
+                                                color: isDark
+                                                    ? const Color(0xFF9CA3AF)
+                                                    : const Color(0xFF6B7280),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
-              ),
-              const SizedBox(height: 24),
-
-              // Main Content
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Categories Section
-                    Text(
-                      'Hospital Categories',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w600,
-                        color: isDark
-                            ? const Color(0xFFF3F4F6)
-                            : const Color(0xFF1F2937),
-                      ),
-                    ),
-                    const SizedBox(height: 16),
-                    SizedBox(
-                      height: 100,
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: categories.length,
-                        itemBuilder: (context, index) {
-                          final category = categories[index];
-                          return Container(
-                            width: 100,
-                            margin: const EdgeInsets.only(right: 12),
-                            decoration: BoxDecoration(
-                              color: isDark
-                                  ? const Color(0xFF374151)
-                                  : Colors.white,
-                              borderRadius: BorderRadius.circular(16),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black.withOpacity(0.1),
-                                  blurRadius: 4,
-                                  offset: const Offset(0, 2),
-                                ),
-                              ],
-                            ),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  category.icon,
-                                  style: const TextStyle(fontSize: 32),
-                                ),
-                                const SizedBox(height: 8),
-                                Text(
-                                  category.name,
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w500,
-                                    color: isDark
-                                        ? const Color(0xFFF3F4F6)
-                                        : const Color(0xFF1F2937),
-                                  ),
-                                  textAlign: TextAlign.center,
-                                ),
-                              ],
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-                    const SizedBox(height: 24),
-
-                    // Exercises Section
-                    Text(
-                      'Recommended Exercises',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w600,
-                        color: isDark
-                            ? const Color(0xFFF3F4F6)
-                            : const Color(0xFF1F2937),
-                      ),
-                    ),
-                    const SizedBox(height: 16),
-                    SizedBox(
-                      height: 200,
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: exercises.length,
-                        itemBuilder: (context, index) {
-                          final exercise = exercises[index];
-                          return Container(
-                            width: 200,
-                            margin: const EdgeInsets.only(right: 16),
-                            decoration: BoxDecoration(
-                              color: isDark
-                                  ? const Color(0xFF374151)
-                                  : Colors.white,
-                              borderRadius: BorderRadius.circular(16),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black.withOpacity(0.1),
-                                  blurRadius: 4,
-                                  offset: const Offset(0, 2),
-                                ),
-                              ],
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                ClipRRect(
-                                  borderRadius: const BorderRadius.vertical(
-                                    top: Radius.circular(16),
-                                  ),
-                                  child: Image.network(
-                                    exercise.image,
-                                    height: 120,
-                                    width: double.infinity,
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 12),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        exercise.name,
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w600,
-                                          color: isDark
-                                              ? const Color(0xFFF3F4F6)
-                                              : const Color(0xFF1F2937),
-                                        ),
-                                      ),
-                                      const SizedBox(height: 4),
-                                      Text(
-                                        exercise.category,
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          color: isDark
-                                              ? const Color(0xFF9CA3AF)
-                                              : const Color(0xFF6B7280),
-                                        ),
-                                      ),
-                                      const SizedBox(height: 4),
-                                      Text(
-                                        exercise.duration,
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          color: isDark
-                                              ? const Color(0xFF9CA3AF)
-                                              : const Color(0xFF6B7280),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-                    const SizedBox(height: 24),
-
-                    // Diet Section
-                    Text(
-                      'Your Diet Plan',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w600,
-                        color: isDark
-                            ? const Color(0xFFF3F4F6)
-                            : const Color(0xFF1F2937),
-                      ),
-                    ),
-                    const SizedBox(height: 16),
-                    Expanded(
-                      child: ListView.builder(
-                        itemCount: diets.length,
-                        itemBuilder: (context, index) {
-                          final diet = diets[index];
-                          return Container(
-                            margin: const EdgeInsets.only(bottom: 16),
-                            decoration: BoxDecoration(
-                              color: isDark
-                                  ? const Color(0xFF374151)
-                                  : Colors.white,
-                              borderRadius: BorderRadius.circular(16),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black.withOpacity(0.1),
-                                  blurRadius: 4,
-                                  offset: const Offset(0, 2),
-                                ),
-                              ],
-                            ),
-                            child: Row(
-                              children: [
-                                ClipRRect(
-                                  borderRadius: const BorderRadius.horizontal(
-                                    left: Radius.circular(16),
-                                  ),
-                                  child: Image.network(
-                                    diet.image,
-                                    width: 100,
-                                    height: 100,
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(12),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          diet.name,
-                                          style: TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w600,
-                                            color: isDark
-                                                ? const Color(0xFFF3F4F6)
-                                                : const Color(0xFF1F2937),
-                                          ),
-                                        ),
-                                        const SizedBox(height: 4),
-                                        Text(
-                                          diet.category,
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            color: isDark
-                                                ? const Color(0xFF9CA3AF)
-                                                : const Color(0xFF6B7280),
-                                          ),
-                                        ),
-                                        const SizedBox(height: 4),
-                                        Text(
-                                          '${diet.calories} calories',
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            color: isDark
-                                                ? const Color(0xFF9CA3AF)
-                                                : const Color(0xFF6B7280),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
+              );
+            },
           ),
         ),
       ),
@@ -446,11 +474,12 @@ class _MobileScaffoldState extends State<MobileScaffold> {
     const HospitalsScreen(),
     const AppointmentsScreen(),
     const RecordsScreen(),
-    const ProfileScreen(),
+    const ChatScreen(),
   ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      endDrawer: const Drawer(),
       body: _screens[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
@@ -476,7 +505,7 @@ class _MobileScaffoldState extends State<MobileScaffold> {
             label: '',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person),
+            icon: Icon(Icons.message_outlined),
             label: '',
           ),
         ],

@@ -4,6 +4,7 @@ import 'package:medicare/components/constants.dart';
 import 'package:medicare/data/dummy_data.dart';
 import 'package:medicare/layout/hospital/single_hospital_page.dart';
 import 'package:medicare/provider/providers.dart';
+import 'package:medicare/temporary/models/models.dart';
 import 'package:provider/provider.dart';
 
 class DesktopScaffold1 extends StatefulWidget {
@@ -104,7 +105,7 @@ class _DesktopScaffold1State extends State<DesktopScaffold1> {
                 child: ListView.separated(
                   padding: const EdgeInsets.all(16),
                   itemBuilder: (context, index) {
-                    final Hospital hospital = dummyHospitals[index];
+                    final  hospital = dummyHospitals[index];
                     return Container(
                       padding: const EdgeInsets.all(16),
                       decoration: BoxDecoration(
@@ -403,12 +404,4 @@ class CategoryDetailScreen extends StatelessWidget {
 }
 
 // Chat Message Model
-class ChatMessage {
-  final String message;
-  final bool isUser;
 
-  ChatMessage({
-    required this.message,
-    required this.isUser,
-  });
-}
