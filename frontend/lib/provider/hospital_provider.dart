@@ -55,7 +55,8 @@ class HospitalProvider with ChangeNotifier {
 
     hospitals.sort((a, b) => a.distance.compareTo(b.distance));
 
-    nearHospitals = hospitals.take(3).toList();
+    nearHospitals = hospitals.take(5).toList();
+    debugPrint(nearHospitals.toString());
 
     for (var hospital in nearHospitals) {
       _sortedHospitals.add(hospital);

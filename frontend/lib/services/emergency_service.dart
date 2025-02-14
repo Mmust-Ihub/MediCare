@@ -1,9 +1,12 @@
 // ignore_for_file: constant_identifier_names
 
 import 'package:flutter/material.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server.dart';
 import 'package:flutter/services.dart';
+import 'package:medicare/services/geo_locator_service.dart';
 import 'package:medicare/temporary/models/models.dart';
 
 class EmergencyService {
@@ -14,13 +17,34 @@ class EmergencyService {
   }) async {
     final smtpServer = gmail('kinslybyrone17@gmail.com', 'qgup bauw pocb fmjw');
 
+    String _output = 'Not traceable';
+
+  
+  
+
+    Position? position = await Geolocator.getLastKnownPosition();
+
+    await  placemarkFromCoordinates(position!.latitude,position.longitude)
+                      .then((placemarks) {
+                    var output = 'Couldn"t trace';
+                    if (placemarks.isNotEmpty) {
+                      output = placemarks[0].toString();
+
+                      
+                      _output = output;
+                    
+  }});
+
+
+
     final message = Message()
-      ..from = const Address('medicare@gmail.com', 'MediCare Emergency')
+      ..from = const Address('medicare@gmail.com', 'MediCare')
       ..recipients.add('sebbievilar2@gmail.com')
       ..subject = 'EMERGENCY: Patient Requires Immediate Assistance'
       ..html = '''
         <h2>Emergency Alert</h2>
         <p>Patient $userName requires immediate medical attention.</p>
+        <p>Possible location $_output. Geolocation ${position.toString()}</p>
         <p>Contact Information: $userEmail</p>
       ''';
 
