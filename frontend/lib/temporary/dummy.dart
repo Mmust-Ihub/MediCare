@@ -32,52 +32,52 @@ final List<Hospital> dummyHospitals = [
   ),
   Hospital(
     id: 'h1',
-    name: 'Kakamega County Referral Hospital',
+    name: 'Kakamega County Referral ',
     address: 'Kakamega-Kisumu Road, Kakamega',
     category: 'Public',
     doctors: [],
     enrolledPatients: [],
     imageUrl:
-        'https://www.constructionkenya.com/wp-content/uploads/2020/06/Kakamega-Teaching-and-Referral-Hospital.jpg',
+        'https://content.presspage.com/uploads/1878/c1920_4091-001-00-843.013-large.jpg?19146',
     rating: 4.3,
     latitudee: -0.2827,
     longitude: 34.7519,
   ),
   Hospital(
     id: 'h2',
-    name: 'St. Elizabeth Mukumu Hospital',
+    name: 'St. Elizabeth Mukumu ',
     address: 'Kakamega-Kisumu Highway, Kakamega',
     category: 'Faith-Based',
     doctors: [],
     enrolledPatients: [],
     imageUrl:
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ5Y5V5j5i5vXqOMj0DTnQH7QjPGdfBzYWJ4w&usqp=CAU',
+        'https://content.presspage.com/uploads/1878/c1920_4091-001-00-843.013-large.jpg?19146',
     rating: 4.1,
     latitudee: -0.2891,
     longitude: 34.7644,
   ),
   Hospital(
     id: 'h3',
-    name: 'Jaramogi Oginga Odinga Teaching and Referral Hospital',
+    name: 'Jaramogi Referral Hospital',
     address: 'Kisumu-Kakamega Road, Kisumu',
     category: 'Public',
     doctors: [],
     enrolledPatients: [],
     imageUrl:
-        'https://www.constructionkenya.com/wp-content/uploads/2020/06/Jaramogi-Oginga-Odinga-Teaching-and-Referral-Hospital.jpg',
+        'https://content.presspage.com/uploads/1878/c1920_4091-001-00-843.013-large.jpg?19146',
     rating: 4.4,
     latitudee: -0.0917,
     longitude: 34.7680,
   ),
   Hospital(
     id: 'h4',
-    name: 'Aga Khan Hospital Kisumu',
+    name: 'Aga Khan Hospital ',
     address: 'Obama Road, Kisumu',
     category: 'Private',
     doctors: [],
     enrolledPatients: [],
     imageUrl:
-        'https://www.agakhanhospitals.org/images/default-source/hospitals/kisumu/akhk-building.jpg',
+        'https://content.presspage.com/uploads/1878/c1920_4091-001-00-843.013-large.jpg?19146',
     rating: 4.6,
     latitudee: -0.0875,
     longitude: 34.7633,
@@ -90,7 +90,7 @@ final List<Hospital> dummyHospitals = [
     doctors: [],
     enrolledPatients: [],
     imageUrl:
-        'https://www.avenuehealthcare.com/wp-content/uploads/2020/03/avenue-kisumu-1.jpg',
+        'https://content.presspage.com/uploads/1878/c1920_4091-001-00-843.013-large.jpg?19146',
     rating: 4.2,
     latitudee: -0.0922,
     longitude: 34.7577,
@@ -123,7 +123,7 @@ final List<Hospital> dummyHospitals = [
   ),
   Hospital(
     id: 'h8',
-    name: 'Aga Khan University Hospital',
+    name: 'Aga Khan  Hospital',
     address: '3rd Parklands Avenue, Nairobi',
     category: 'Private',
     doctors: [],
@@ -136,7 +136,7 @@ final List<Hospital> dummyHospitals = [
   ),
   Hospital(
     id: 'h9',
-    name: 'Mama Lucy Kibaki Hospital',
+    name: 'Mama Lucy  Hospital',
     address: 'Kangundo Road, Nairobi',
     category: 'Public',
     doctors: [],
@@ -149,7 +149,7 @@ final List<Hospital> dummyHospitals = [
   ),
   Hospital(
     id: 'h10',
-    name: 'Gertrude\'s Children\'s Hospital',
+    name: 'Gertrude\'s  Hospital',
     address: 'Muthaiga Road, Nairobi',
     category: 'Private',
     doctors: [],
@@ -162,7 +162,7 @@ final List<Hospital> dummyHospitals = [
   ),
   Hospital(
     id: 'h11',
-    name: 'Coast General Teaching and Referral Hospital',
+    name: 'Coast General Hospital',
     address: 'Mombasa-Malindi Highway, Mombasa',
     category: 'Public',
     doctors: [],
@@ -175,7 +175,7 @@ final List<Hospital> dummyHospitals = [
   ),
   Hospital(
     id: 'h12',
-    name: 'Aga Khan Hospital Mombasa',
+    name: 'Aga Khan Hospital ',
     address: 'Vanga Road, Mombasa',
     category: 'Private',
     doctors: [],
@@ -206,7 +206,7 @@ final List<Hospital> dummyHospitals = [
     doctors: [],
     enrolledPatients: [],
     imageUrl:
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ9X5V5j5i5vXqOMj0DTnQH7QjPGdfBzYWJ4w&usqp=CAU',
+        'https://content.presspage.com/uploads/1878/c1920_4091-001-00-843.013-large.jpg?19146',
     rating: 4.0,
     latitudee: -0.2856,
     longitude: 34.7511,
@@ -219,7 +219,7 @@ final List<Hospital> dummyHospitals = [
     doctors: [],
     enrolledPatients: [],
     imageUrl:
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5Y5V5j5i5vXqOMj0DTnQH7QjPGdfBzYWJ4w&usqp=CAU',
+        'https://content.presspage.com/uploads/1878/c1920_4091-001-00-843.013-large.jpg?19146',
     rating: 4.1,
     latitudee: -0.0914,
     longitude: 34.7623,
@@ -258,7 +258,7 @@ final List<Hospital> dummyHospitals = [
     doctors: [],
     enrolledPatients: [],
     imageUrl:
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS5Y5V5j5i5vXqOMj0DTnQH7QjPGdfBzYWJ4w&usqp=CAU',
+        'https://content.presspage.com/uploads/1878/c1920_4091-001-00-843.013-large.jpg?19146',
     rating: 4.3,
     latitudee: -4.0478,
     longitude: 39.6696,
@@ -271,7 +271,7 @@ final List<Hospital> dummyHospitals = [
     doctors: [],
     enrolledPatients: [],
     imageUrl:
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5Y5V5j5i5vXqOMj0DTnQH7QjPGdfBzYWJ4w&usqp=CAU',
+        'https://content.presspage.com/uploads/1878/c1920_4091-001-00-843.013-large.jpg?19146',
     rating: 4.0,
     latitudee: -4.0357,
     longitude: 39.6731,
@@ -284,7 +284,7 @@ final List<Hospital> dummyHospitals = [
     doctors: [],
     enrolledPatients: [],
     imageUrl:
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcU5Y5V5j5i5vXqOMj0DTnQH7QjPGdfBzYWJ4w&usqp=CAU',
+        'https://content.presspage.com/uploads/1878/c1920_4091-001-00-843.013-large.jpg?19146',
     rating: 4.1,
     latitudee: -4.0412,
     longitude: 39.6424,
@@ -297,7 +297,7 @@ final List<Hospital> dummyHospitals = [
     doctors: [],
     enrolledPatients: [],
     imageUrl:
-        'https://www.maramani.com/cdn/shop/collections/Community_health_center_Medical_centres_building_Design.jpg?v=1689587922&width=2048',
+        'https://content.presspage.com/uploads/1878/c1920_4091-001-00-843.013-large.jpg?19146',
     rating: 4.2,
     latitudee: 40.7829,
     longitude: -73.9654,

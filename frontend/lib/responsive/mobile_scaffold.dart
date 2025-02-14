@@ -262,7 +262,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           height: 200,
                           child: ListView.builder(
                             scrollDirection: Axis.horizontal,
-                            itemCount: exercises.length,
+                            itemCount: 5,
                             itemBuilder: (context, index) {
                               final hospital = hospitals[index];
 
