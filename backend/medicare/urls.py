@@ -17,13 +17,14 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from hospitals.views import HospitalViewSet
-from patients.views import PatientRecordViewSet 
+from patients.views import MedicalRecordViewSet 
 from doctors.views import DoctorViewSet
 from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
+
 router.register(r'hospitals', HospitalViewSet)
-router.register(r'patients', PatientRecordViewSet)
+router.register(r'patients', MedicalRecordViewSet)
 router.register(r'doctors', DoctorViewSet)
 
 
