@@ -1,6 +1,14 @@
-from django.urls import path
-from .views import AddPatientView  # Import the new view
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
+from .views import HospitalViewSet, DoctorViewSet
+
+router = DefaultRouter()
+router.register(r'hospitals', HospitalViewSet)
+router.register(r'doctors', DoctorViewSet)
 
 urlpatterns = [
-    path('add-patient/<int:hospital_id>/', AddPatientView.as_view(), name='add-patient'),
+    path('', include(router.urls)),
+    path('', include(router.urls)),
+    # path('add-patient/<int:hospital_id>/', AddPatientView.as_view(), name='add-patient'),
 ]
+

@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'hospitals', # custom hospitals app
     'patients', # custom patients app
     'doctors', # custom doctors app
+    'content',
    
     'rest_framework',
     'rest_framework.authtoken',
@@ -102,12 +103,12 @@ AUTH_USER_MODEL = 'authentication.User'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 
 
 # Replace the DATABASES section of your settings.py with this

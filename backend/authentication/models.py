@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.contrib.auth import get_user_model
 from django.contrib.auth.base_user import BaseUserManager
 from django.utils.translation import gettext_lazy as _
 from phonenumber_field.modelfields import PhoneNumberField
@@ -15,6 +16,9 @@ class User(AbstractUser):
     role = models.CharField(max_length=10, choices=ROLE_CHOICES, default='patient')
     phone_number = PhoneNumberField(blank=True, null=True)
     hospitals = models.ManyToManyField('hospitals.Hospital', related_name='patients', blank=True)  # Use string literal
+    distance = models.FloatField(default=0.0)
+    is_critical = models.BooleanField(default=False)
+    enrolled_hospitals = models.ManyToManyField('hospitals.Hospital', related_name='enrolled_patients')
 
     def __str__(self):
         return f"<User {self.username}>"
